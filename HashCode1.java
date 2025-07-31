@@ -1,23 +1,59 @@
-import java.util.Objects;
+import java.util.Scanner;
 
-class Person {
-    String name;
-    int age;
+public class hashFunction {
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+    static final int TABLE_SIZE = 10;
+    static String[] hashTable = new String[TABLE_SIZE];
+
+    public static int builtInHash(String key) {
+        return Math.abs(key.hashCode() % TABLE_SIZE);
     }
 
-    
-    public int hashCode() {
-        return Objects.hash(name, age); 
+    public static int customHash(String key) {
+        int hash = 0;
+        for (char c : key.toCharArray()) {
+            hash += c;
+        }
+        return hash % TABLE_SIZE;
     }
-}
 
-public class HashCode1 {
+    public static void insert(String key) {
+        int index = customHash(key);
+        int startIndex = index;
+
+        while (hashTable[index] != null) {
+            index = (index + 1) % TABLE_SIZE;
+            if (index == startIndex) {
+                System.out.println("Hash table is full!");
+                return;
+            }
+        }
+
+        hashTable[index] = key;
+        System.out.println("Inserted '" + key + "' at index " + index);
+    }
+
+    public static void displayTable() {
+        System.out.println("\nHash Table:");
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            System.out.println("Index " + i + ": " + (hashTable[i] == null ? "null" : hashTable[i]));
+        }
+    }
+
     public static void main(String[] args) {
-        Person person = new Person("OM", 19);
-        System.out.println("Hash Code: " + person.hashCode());
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter number of keys to insert: ");
+        int n = scanner.nextInt();
+        scanner.nextLine();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter key " + (i + 1) + ": ");
+            String key = scanner.nextLine();
+            insert(key);
+        }
+
+        displayTable();
+
+        scanner.close();
     }
 }
