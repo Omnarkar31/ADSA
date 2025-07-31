@@ -1,59 +1,57 @@
 import java.util.Scanner;
 
-public class hashFunction {
+public class SimpleHash {
 
-    static final int TABLE_SIZE = 10;
-    static String[] hashTable = new String[TABLE_SIZE];
+    static final int SIZE = 10;
+    static String[] table = new String[SIZE];
 
-    public static int builtInHash(String key) {
-        return Math.abs(key.hashCode() % TABLE_SIZE);
-    }
-
-    public static int customHash(String key) {
-        int hash = 0;
-        for (char c : key.toCharArray()) {
-            hash += c;
+    public static int hash(String key) {
+        int sum = 0;
+        for (int i = 0; i < key.length(); i++) {
+            sum += key.charAt(i);
         }
-        return hash % TABLE_SIZE;
+        return sum % SIZE;
     }
 
     public static void insert(String key) {
-        int index = customHash(key);
-        int startIndex = index;
+        int index = hash(key);
+        int originalIndex = index;
 
-        while (hashTable[index] != null) {
-            index = (index + 1) % TABLE_SIZE;
-            if (index == startIndex) {
-                System.out.println("Hash table is full!");
+        // Linear probing
+        while (table[index] != null) {
+            index = (index + 1) % SIZE;
+            if (index == originalIndex) {
+                System.out.println("Hash table is full. Can't insert '" + key + "'.");
                 return;
             }
         }
 
-        hashTable[index] = key;
+        table[index] = key;
         System.out.println("Inserted '" + key + "' at index " + index);
     }
 
-    public static void displayTable() {
+    public static void display() {
         System.out.println("\nHash Table:");
-        for (int i = 0; i < TABLE_SIZE; i++) {
-            System.out.println("Index " + i + ": " + (hashTable[i] == null ? "null" : hashTable[i]));
+        for (int i = 0; i < SIZE; i++) {
+            System.out.println(i + ": " + (table[i] == null ? "empty" : table[i]));
         }
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter number of keys to insert: ");
-        int n = scanner.nextInt();
-        scanner.nextLine();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("How many keys to insert? ");
+        int n = sc.nextInt();
+        sc.nextLine();  // Consume newline
 
         for (int i = 0; i < n; i++) {
             System.out.print("Enter key " + (i + 1) + ": ");
-            String key = scanner.nextLine();
+            String key = sc.nextLine();
             insert(key);
         }
 
-        displayTable();
-
-        scanner.close();
+        display();
+        sc.close();
     }
 }
+
