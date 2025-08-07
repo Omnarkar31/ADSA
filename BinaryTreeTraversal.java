@@ -1,5 +1,6 @@
 import java.util.*;
 
+// Binary Tree Node class
 class Node {
     int data;
     Node left, right;
@@ -10,6 +11,7 @@ class Node {
     }
 }
 
+// Main class for Binary Tree Traversal
 public class BinaryTreeTraversal {
 
     Node root;
@@ -18,7 +20,7 @@ public class BinaryTreeTraversal {
         root = null;
     }
 
-    // Build binary tree using level order from number list
+    // Build binary tree using level order from list of numbers
     void buildTreeFromList(List<Integer> nums) {
         if (nums.isEmpty()) return;
 
@@ -44,7 +46,7 @@ public class BinaryTreeTraversal {
         }
     }
 
-    // Inorder traversal
+    // Inorder traversal (Left -> Root -> Right)
     void inorder(Node node) {
         if (node == null) return;
         inorder(node.left);
@@ -52,7 +54,7 @@ public class BinaryTreeTraversal {
         inorder(node.right);
     }
 
-    // Preorder traversal
+    // Preorder traversal (Root -> Left -> Right)
     void preorder(Node node) {
         if (node == null) return;
         System.out.print(node.data + " ");
@@ -60,7 +62,7 @@ public class BinaryTreeTraversal {
         preorder(node.right);
     }
 
-    // Postorder traversal
+    // Postorder traversal (Left -> Right -> Root)
     void postorder(Node node) {
         if (node == null) return;
         postorder(node.left);
@@ -68,19 +70,18 @@ public class BinaryTreeTraversal {
         System.out.print(node.data + " ");
     }
 
+    // Main method
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         BinaryTreeTraversal tree = new BinaryTreeTraversal();
 
-        System.out.print("Enter numbers to insert into the tree ");
-        String input = scanner.nextLine();
+        System.out.print("Enter the number of nodes: ");
+        int n = scanner.nextInt();
 
-
-        String[] tokens = input.trim().split("\\s+");
         List<Integer> nums = new ArrayList<>();
-        for (String token : tokens) {
-            nums.add(Integer.parseInt(token));
+        System.out.println("Enter " + n + " numbers to insert into the tree:");
+        for (int i = 0; i < n; i++) {
+            nums.add(scanner.nextInt());
         }
 
         tree.buildTreeFromList(nums);
