@@ -69,19 +69,32 @@ public class BinaryTreeTraversal {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        BinaryTreeTraversal tree = new BinaryTreeTraversal();
+    Scanner scanner = new Scanner(System.in);
+    BinaryTreeTraversal tree = new BinaryTreeTraversal();
 
-        System.out.print("Enter numbers to insert into the tree (space-separated): ");
-        String input = scanner.nextLine();
+    System.out.print("Enter the number of nodes: ");
+    int n = scanner.nextInt();
 
-        // Convert input to list of integers
-        String[] tokens = input.trim().split("\\s+");
-        List<Integer> nums = new ArrayList<>();
-        for (String token : tokens) {
-            nums.add(Integer.parseInt(token));
-        }
+    List<Integer> nums = new ArrayList<>();
+    System.out.println("Enter " + n + " numbers to insert into the tree:");
 
+    for (int i = 0; i < n; i++) {
+        nums.add(scanner.nextInt());
+    }
+
+    tree.buildTreeFromList(nums);
+
+    System.out.print("\nInorder traversal: ");
+    tree.inorder(tree.root);
+
+    System.out.print("\nPreorder traversal: ");
+    tree.preorder(tree.root);
+
+    System.out.print("\nPostorder traversal: ");
+    tree.postorder(tree.root);
+
+    scanner.close();
+}
         tree.buildTreeFromList(nums);
 
         System.out.print("\nInorder traversal: ");
@@ -96,3 +109,4 @@ public class BinaryTreeTraversal {
         scanner.close();
     }
 }
+
