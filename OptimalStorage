@@ -1,40 +1,50 @@
-import java.util.*;
+public class OptimalBubbleSort {
 
-public class OptimalStorage {
+    // Function to perform optimized bubble sort
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        boolean swapped;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        // Outer loop for passes
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
 
-        System.out.print("Enter number of files: ");
-        int n = sc.nextInt();
+            // Inner loop for comparisons
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap elements
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
+            }
 
-        int[] sizes = new int[n];
-
-        System.out.println("Enter sizes of the files:");
-        for (int i = 0; i < n; i++) {
-            sizes[i] = sc.nextInt();
+            // If no two elements were swapped in this pass, array is sorted
+            if (!swapped) {
+                break;
+            }
         }
+    }
 
-        // Sort sizes in increasing order
-        Arrays.sort(sizes);
-
-        int totalRetrievalTime = 0;
-        int cumulativeSum = 0;
-
-        System.out.print("Optimal Order of files: ");
-        for (int size : sizes) {
-            System.out.print(size + " ");
+    // Helper function to print array
+    public static void printArray(int[] arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
         }
-
         System.out.println();
+    }
 
-        // Calculate total retrieval time
-        for (int i = 0; i < n; i++) {
-            cumulativeSum += sizes[i];
-            totalRetrievalTime += cumulativeSum;
-        }
+    // Main method
+    public static void main(String[] args) {
+        int[] arr = {64, 34, 25, 12, 22, 11, 90};
 
-        System.out.println("Total Retrieval Time: " + totalRetrievalTime);
-        sc.close();
+        System.out.println("Original array:");
+        printArray(arr);
+
+        bubbleSort(arr);
+
+        System.out.println("Sorted array:");
+        printArray(arr);
     }
 }
