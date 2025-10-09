@@ -1,50 +1,41 @@
-public class OptimalBubbleSort {
-
-    // Function to perform optimized bubble sort
-    public static void bubbleSort(int[] arr) {
-        int n = arr.length;
-        boolean swapped;
-
-        // Outer loop for passes
-        for (int i = 0; i < n - 1; i++) {
-            swapped = false;
-
-            // Inner loop for comparisons
-            for (int j = 0; j < n - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    // Swap elements
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                    swapped = true;
-                }
-            }
-
-            // If no two elements were swapped in this pass, array is sorted
-            if (!swapped) {
-                break;
-            }
+package OptimalStorage;
+ import java.util.Arrays;
+ import java.util.Scanner;
+ public class OptimalStorageOnTape {
+    public static void main(String[] args)
+ {
+    Scanner sc = new Scanner(System.in);
+    // Input number of programs
+    System.out.print("Enter number of programs: ");
+    int n = sc.nextInt();
+    int[] length = new int[n];
+    // Input program lengths
+    System.out.println("Enter lengths of programs:");
+    for (int i = 0; i < n; i++)
+    {
+        length[i] = sc.nextInt();
+    }
+    // Sort program lengths (shortest job first)
+    Arrays.sort(length);
+    int[] retrievalTime = new int[n];
+    int totalRT = 0;
+    // Calculate retrieval mes
+    for (int i = 0; i < n; i++)
+    {
+        retrievalTime[i] = 0;
+        for (int j = 0; j <= i; j++)
+        {
+            retrievalTime[i] += length[j];
         }
+        totalRT += retrievalTime[i];
     }
-
-    // Helper function to print array
-    public static void printArray(int[] arr) {
-        for (int num : arr) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
-    }
-
-    // Main method
-    public static void main(String[] args) {
-        int[] arr = {64, 34, 25, 12, 22, 11, 90};
-
-        System.out.println("Original array:");
-        printArray(arr);
-
-        bubbleSort(arr);
-
-        System.out.println("Sorted array:");
-        printArray(arr);
-    }
-}
+    // Calculate Mean Retrieval Time (MRT)
+    double MRT = (double) totalRT / n;
+    // Print results
+    System.out.println("\nOpmal Order of Programs: " + Arrays.toString(length));
+    System.out.println("Retrieval Times: " + Arrays.toString(retrievalTime));
+    System.out.println("Total Retrieval Time = " + totalRT);
+    System.out.println("Mean Retrieval Time (MRT) = " + MRT);
+    sc.close();
+ }
+ }
