@@ -1,0 +1,54 @@
+import heapq
+
+def dijkstra(graph, start):
+    n = len(graph)
+    distances = [float('inf')] * n
+    distances[start] = 0
+    min_heap = [(0, start)]
+
+    while min_heap:
+        current_dist, u = heapq.heappop(min_heap)
+        for weight, v in graph[u]:
+            distance = current_dist + weight
+            if distance < distances[v]:
+                distances[v] = distance
+                heapq.heappush(min_heap, (distance, v))
+    return distances
+
+# ---------- User Input ----------
+n = int(input("Enter number of vertices: "))
+graph = {i: [] for i in range(n)}
+
+print("Enter adjacency matrix (use 0 if no edge):")
+for i in range(n):
+    row = list(map(int, input().split()))
+    for j, w in enumerate(row):
+        if w != 0:
+            graph[i].append((w, j))
+
+start_node = int(input("Enter starting node (0 to n-1): "))
+
+# ---------- Run Dijkstra ----------
+distances = dijkstra(graph, start_node)
+
+print("\nShortest distances from node", start_node)
+for i, d in enumerate(distances):
+    print(f"{start_node} -> {i} = {d}")
+
+
+
+Enter number of vertices: 4
+Enter adjacency matrix (use 0 if no edge):
+0 1 4 0
+1 0 2 6
+4 2 0 3
+0 6 3 0
+Enter starting node (0 to n-1): 0
+
+
+Shortest distances from node 0
+0 -> 0 = 0
+0 -> 1 = 1
+0 -> 2 = 3
+0 -> 3 = 6
+
