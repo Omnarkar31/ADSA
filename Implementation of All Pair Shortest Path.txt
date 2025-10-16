@@ -1,0 +1,51 @@
+def floyd_warshall(graph):
+    n = len(graph)
+    dist = [[float('inf')] * n for _ in range(n)]
+    
+    # initialize distance matrix
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                dist[i][j] = 0
+            elif graph[i][j] != 0:
+                dist[i][j] = graph[i][j]
+
+    # dynamic programming: k as intermediate
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i][k] + dist[k][j] < dist[i][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+
+    return dist
+
+# ---------- User Input ----------
+n = int(input("Enter number of vertices: "))
+graph = []
+
+print("Enter adjacency matrix (use 0 if no edge):")
+for _ in range(n):
+    row = list(map(int, input().split()))
+    graph.append(row)
+
+# ---------- Run Floyd Warshall ----------
+distance_matrix = floyd_warshall(graph)
+
+print("\nShortest distance matrix:")
+for row in distance_matrix:
+    print(" ".join(map(lambda x: str(x) if x != float('inf') else "∞", row)))
+
+Enter number of vertices: 4
+Enter adjacency matrix (use 0 if no edge):
+0 3 0 7
+8 0 2 0
+5 0 0 1
+2 0 0 0
+
+
+Shortest distance matrix:
+0 3 5 6
+5 0 2 3
+3 6 0 1
+2 5 7 0
+
